@@ -10,6 +10,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Send {
 
@@ -29,7 +31,7 @@ public class Send {
         File filePath = new File(email.getPath() != null ? email.getPath() : " ");
 
         if (!filePath.exists()) {
-            Log.e("Util", "FILE NOT FOUND : " + email.getPath());
+            Log.e("Util", "file not found : " + email.getPath());
 
         } else {
 
@@ -52,8 +54,6 @@ public class Send {
         }
 
         context.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
-
-
     }
 
     private static Uri fileToUri(Activity context, File filePath) {
@@ -104,7 +104,9 @@ public class Send {
         private String message;
 
         public Email(Builder builder) {
-            this.emails = builder.emails;
+            if (builder.emails != null) {
+                this.emails = builder.emails.toArray(new String[0]);
+            }
             this.path = builder.path;
             this.title = builder.title;
             this.message = builder.message;
@@ -128,13 +130,24 @@ public class Send {
 
         public static class Builder {
 
-            private String[] emails;
+            private List<String> emails;
             private String path;
             private String title;
             private String message;
 
-            public Builder setEmails(String[] emails) {
-                this.emails = emails;
+            public Builder setEmails(String[] array) {
+                if (array != null) {
+                    emails = Arrays.asList(array);
+                }
+                return this;
+            }
+
+            public Builder setEmail(String email) {
+                if (emails == null) {
+                    emails = new ArrayList<>();
+                }
+
+                emails.add(email);
                 return this;
             }
 
@@ -160,6 +173,4 @@ public class Send {
 
         }
     }
-
-
 }

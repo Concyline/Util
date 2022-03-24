@@ -21,15 +21,17 @@ public class MainActivity extends AppCompatActivity {
         Email email = new Email.Builder()
                 .setTitle("Email para funcionario tal")
                 .setMessage("Message 11:08")
-                //.setPath(Environment.getExternalStorageDirectory() + "/SC/cidades.rar")
-                .setPath(Environment.getExternalStorageDirectory() + "/SC")
-                .setEmails(new String[]{"concyline@hotmail.com"})
+                .setPath(Environment.getExternalStorageDirectory() + "/SC/cidades.rar")
+                //.setPath(Environment.getExternalStorageDirectory() + "/SC")
+                //.setEmail("concyline@hotmail.com")
+                //.setEmail("siacsuporteandroid@gmail.com")
+                .setEmails(new String[]{"concyline@hotmail.com","siacsuporteandroid@gmail.com"})
                 .build();
 
         try {
-            //Send.email(this, email);
+            Send.email(this, email);
 
-            Send.file(this, Environment.getExternalStorageDirectory() + "/SC/cidadesA.rar");
+            //Send.file(this, Environment.getExternalStorageDirectory() + "/SC/cidades.rar");
         } catch (Exception e) {
             e.printStackTrace();
         }
