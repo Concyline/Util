@@ -2,7 +2,7 @@ package br.com.util;
 
 public class Str {
 
-    public static <T extends Object> String Format(String value, T... parms) throws Exception{
+    public static String Format(String value, Object... parms) throws Exception{
 
         for (int i = 0; i < parms.length; i++) {
 
