@@ -17,6 +17,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            String value = Str.Format("SELECT * FROM CIDADES C WHERE C.NOME LIKE '{0}%' AND C.UF == '{1}'" , "INHU" , "GO");
+
+            System.out.println(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         Email email = new Email.Builder()
                 .setTitle("Email para funcionario tal")
