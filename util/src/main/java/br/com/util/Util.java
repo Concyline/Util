@@ -3,6 +3,7 @@ package br.com.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.AssetManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,12 +13,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import br.com.util.listeners.OnListnerAlertSimCancelar;
 import br.com.util.listeners.OnListnerOk;
 
 public class Util {
+
+    public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 
     public static void abaixaTeclado(Context context, View v) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -105,47 +115,30 @@ public class Util {
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   /* public static void setBar(AppCompatActivity context, String title) {
-        setBar(context, title, "");
-    }*/
-
-    /*public static void setBar(AppCompatActivity context, String title, String subtitle) {
-        context.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        context.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        context.getSupportActionBar().setDisplayUseLogoEnabled(true);
-
-        context.getSupportActionBar().setTitle(title);
-        if (subtitle != null) {
-            context.getSupportActionBar().setSubtitle(subtitle);
-        }
-    }*/
-
- /*   public static void setBar(AppCompatActivity context, String title, String subtitle) {
-        setBar(context, title, subtitle, 1);
+    public static <T> List<T> getListGson(String jsonArray, Class<T> clazz) {
+        Type typeOfT = TypeToken.getParameterized(List.class, clazz).getType();
+        return gson.fromJson(jsonArray, typeOfT);
     }
 
+    public static <T> T getObjectGson(String jsonArray, Class<T> clazz) {
+        return gson.fromJson(jsonArray, clazz);
+    }
 
-    public static void setBar(AppCompatActivity context, String title, String subtitle, float elevation) {
-        ActionBar actionBar = context.getSupportActionBar();
+    public static String assetJsonFile (Context context, String filename ) throws IOException {
+        AssetManager manager = context.getAssets();
+        InputStream file = manager.open(filename);
+        byte[] formArray = new byte[file.available()];
+        file.read(formArray);
+        file.close();
 
-        actionBar.setElevation(elevation);
+        return new String(formArray);
+    }
 
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
 
-        actionBar.setTitle(Html.fromHtml("<font face='sans-serif' color='#212121'>"+title+"</font>"));
-        if (subtitle != null) {
-            actionBar.setSubtitle(Html.fromHtml("<font color='#212121'>"+subtitle+"</font>"));
-        }
-    }*/
 
 
 }
