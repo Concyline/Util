@@ -3,9 +3,12 @@ package br.com.util;
 import android.os.Bundle;
 import android.os.Environment;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-import java.io.File;
 import java.util.List;
 
 import br.com.util.send.Send;
