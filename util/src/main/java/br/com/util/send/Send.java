@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Send {
 
-    public static void email(Activity context, Email email) throws Exception {
+ /*   public static void email(Activity context, Email email) throws Exception {
 
         final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         //emailIntent.setType("plain/text");
@@ -55,7 +55,50 @@ public class Send {
         }
 
         context.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
+    }*/
+
+    public static void email(Activity context, Email email) throws Exception {
+
+        boolean hasAttachment = email.getPath() != null && new File(email.getPath()).exists();
+
+        Intent emailIntent;
+
+        if (hasAttachment) {
+            emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        } else {
+            emailIntent = new Intent(Intent.ACTION_SEND);
+        }
+
+        emailIntent.setType("text/plain"); // 👈 CORRETO
+
+        if (email.getEmails() == null) {
+            throw new Exception("emails not found");
+        }
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, email.getEmails());
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, email.getTitle() != null ? email.getTitle() : " ");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, email.getMessage() != null ? email.getMessage() : " ");
+
+        if (hasAttachment) {
+
+            File filePath = new File(email.getPath());
+            ArrayList<Uri> files = new ArrayList<>();
+
+            if (filePath.isFile()) {
+                files.add(fileToUri(context, filePath));
+            } else {
+                for (File file : filePath.listFiles()) {
+                    files.add(fileToUri(context, file));
+                }
+            }
+
+            emailIntent.putExtra(Intent.EXTRA_STREAM, files);
+            emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        context.startActivity(Intent.createChooser(emailIntent, "Sending email..."));
     }
+
 
     private static Uri fileToUri(Activity context, File filePath) {
         Uri uri = null;
