@@ -18,7 +18,8 @@ public class Send {
     public static void email(Activity context, Email email) throws Exception {
 
         final Intent emailIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-        emailIntent.setType("plain/text");
+        //emailIntent.setType("plain/text");
+        emailIntent.setType("text/plain");
 
         if (email.getEmails() == null) {
             throw new Exception("emails not found");
