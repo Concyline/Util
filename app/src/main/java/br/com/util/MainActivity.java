@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             UF uf = Util.getObjectGson("{\"nome\": \"Acre\", \"sigla\": \"AC\"}", UF.class);
 
 
-            String value = Str.Format("SELECT * FROM CIDADES C WHERE C.NOME LIKE '{0}%' AND C.UF == '{1}'", "INHU", "GO");
+            String value = Str.format("SELECT * FROM CIDADES C WHERE C.NOME LIKE '{0}%' AND C.UF == '{1}'", "INHU", "GO");
 
             System.out.println(value);
         } catch (Exception e) {
